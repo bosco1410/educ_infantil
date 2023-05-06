@@ -1,0 +1,14 @@
+{
+    "name" : "educ_infantil/mvc",
+    "version" : "1.0.0",
+    "description" : "Educacao infantil",
+        "autoload": {
+            "psr-4": {
+                "app\\": "app/"
+            },
+            "files": [
+                "app/config/config.php",
+                "app/config/log_error.php"
+            ]
+        }
+}
