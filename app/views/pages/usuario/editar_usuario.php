@@ -18,12 +18,12 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="senha">Senha</label>
-                <input type="text" class="form-control <?=$dados['senha_error'] ? 'is-invalid' : '' ?>" name="senha" id="senha">
+                <input type="password" class="form-control <?=$dados['senha_error'] ? 'is-invalid' : '' ?>" name="senha" id="senha">
                 <div class="invalid-feedback"><?=$dados['senha_error']?></div>
             </div>
             <div class="col-md-4">
                 <label for="confirmar_senha">Confirmar senha</label>
-                <input type="text" class="form-control <?=$dados['confirmar_senha_error'] ? 'is-invalid' : '' ?>" name="confirmar_senha" id="confirmar_senha">
+                <input type="password" class="form-control <?=$dados['confirmar_senha_error'] ? 'is-invalid' : '' ?>" name="confirmar_senha" id="confirmar_senha">
                 <div class="invalid-feedback"><?=$dados['confirmar_senha_error']?></div>
             </div>
             <div class="col-md-4">
@@ -39,6 +39,7 @@
 
         <div class="form-group mt-2">
             <input type="submit" name="enviar" id="enviar" value="Atualizar" class="btn btn-primary">
+            <a href="<?=URL?>/usuarios" class="btn btn-warning">Voltar</a>
         </div>
 
     </form>

@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\helpers\Check;
 use app\helpers\Message;
+use app\helpers\Session;
 use app\helpers\Url;
 use app\libraries\Controller;
 
@@ -11,7 +12,17 @@ class Usuarios extends Controller {
     private $usuarioModel;
 
     public function __construct(){
+        if(!Session::logged()){
+            Url::redirect('login/login');
+        }
         $this->usuarioModel = $this->model('Usuario');
+    }
+
+    public function index(){
+        $dados = [
+            'usuarios' => $this->usuarioModel->listar(),
+        ];
+        $this->view('pages/usuario/listar_usuario', $dados);
     }
 
     public function cadastrar() {
@@ -129,20 +140,18 @@ class Usuarios extends Controller {
                 elseif(Check::checkEmail($form['email'])){
                     $dados['email_error'] = 'Email inválido!';
                 }
-                elseif($this->usuarioModel->verifyEmail($form['email'])){
-                    $dados['email_error'] = 'E-mail já cadastrado!';
-                }
                 elseif(Check::checkPass($form['senha'])){
                     $dados['senha_error'] = 'A senha precisa ter no mímino 6 caracteres!';
                 }
                 elseif($form['confirmar_senha'] != $form['senha']){
                     $dados['confirmar_senha_error'] = 'As senhas não são iguais!';
                 }else{
-                    if($this->usuarioModel->gravar_usuario($dados)){
-                        Message::showMessage('usuarios', 'REGISTRO GRAVADO COM SUCESSO!');
+                    try{
+                        $this->usuarioModel->editar_usuario($dados);
+                        Message::showMessage('usuarios', 'REGISTRO ALTERADO COM SUCESSO!');
                         Url::redirect('usuarios/listar');
-                    }else{
-                        Message::showMessage('usuarios', 'FALHA NA GRAVAÇÃO!', 'alert alert-danger');
+                    }catch(\PDOException $e){
+                        Message::showMessage('usuarios', $e->getMessage(), 'alert alert-danger');
                         Url::redirect('usuarios/listar');
                     }
                 }
@@ -166,11 +175,28 @@ class Usuarios extends Controller {
         $this->view('pages/usuario/editar_usuario', $dados);
     }
 
-    public function listar(){
-        $dados = [
-            'usuarios' => $this->usuarioModel->listar(),
-        ];
-        $this->view('pages/usuario/listar_usuario', $dados);
+    public function deletar($id) {
+
+        $usuario = $this->usuarioModel->getUsuarioId($id);
+
+            $dados = [
+                'id' => $usuario->id,
+                'nome' => $usuario->nome,
+            ];
+
+        $this->view('pages/usuario/deletar_usuario', $dados);    
+    }
+
+    public function excluir() {
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+        try{
+            $this->usuarioModel->deletar_usuario($id);
+            Message::showMessage('usuarios', 'REGISTRO DELETADO COM SUCESSO!', 'alert alert-warning');
+            Url::redirect('usuarios/listar');
+        }catch(\PDOException $e){
+            Message::showMessage('usuarios', $e->getMessage(), 'alert alert-danger');
+            Url::redirect('usuarios/listar');
+        }
     }
 
 }

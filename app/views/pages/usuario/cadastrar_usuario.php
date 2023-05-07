@@ -41,6 +41,7 @@
 
         <div class="form-group mt-2">
             <input type="submit" name="enviar" id="enviar" value="Enviar" class="btn btn-primary">
+            <a href="<?=URL?>/usuarios" class="btn btn-warning">Voltar</a>
         </div>
 
     </form>
