@@ -29,7 +29,13 @@ use app\helpers\Message;
         padding-bottom: 0px;
     }
 </style>
-<div class="container">
+<div class="container py-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=URL?>/relatorios">Selecionar turma</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Relatórios</li>
+        </ol>
+    </nav>
     <div class="card my-3">
         <div class="card-header">
             <div class="row">
@@ -37,7 +43,7 @@ use app\helpers\Message;
                     <h3 class="card-title">Relatórios</h3>
                 </div>
                 <div class="col-md-6 side-right">
-                    <a class="btn btn-primary float-end" href="<?=URL?>/relatorios/cadastrar">Criar relatório</a>
+                    <a class="btn btn-primary float-end" href="<?=URL?>/relatorios/criarRelatorio">Criar relatório</a>
                 </div>
             </div>
         </div>
@@ -56,8 +62,8 @@ use app\helpers\Message;
             <tbody>
                
                 <?php 
-                if(!$dados){
-                    echo '<tr><td colspan="5" class="alert alert-warning">REGISTRO NÃO LOCALIZADO!</div>';
+                if(!$dados['relatorios']){
+                    echo '<tr><td colspan="6">REGISTRO NÃO LOCALIZADO!</div>';
                 }else{
                 foreach ($dados['relatorios'] as $report) { ?>
                 <tr>

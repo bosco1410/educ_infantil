@@ -1,7 +1,7 @@
 
 <div class="container">
   <footer class="py-3 my-4 border-top pb-3 mb-3">
-    <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
+    <p class="text-center text-body-secondary">&copy; 2023</p>
   </footer>
 </div>
 

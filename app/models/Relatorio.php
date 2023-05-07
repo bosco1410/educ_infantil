@@ -11,7 +11,7 @@ class Relatorio {
         $this->db = new Database();
     }
 
-    public function listar_relatorios($report) {
+    public function listar_relatorios($id_turma) {
         $sql = "SELECT *,
         relatorio.id as idReport,
         relatorio.id_usuario as idUser,
@@ -28,11 +28,10 @@ class Relatorio {
         INNER JOIN usuario ON relatorio.id_usuario = usuario.id
         INNER JOIN alunos ON relatorio.id_aluno = alunos.id
         INNER JOIN turmas ON relatorio.id_turma = turmas.id
-        WHERE relatorio.id_usuario = :id AND relatorio.anoletivo = :ano
+        WHERE relatorio.id_turma = :id
         ORDER BY relatorio.data_cad DESC";
         $this->db->query($sql);
-        $this->db->bind(':id', $report['id']);
-        $this->db->bind(':ano', date('Y'));
+        $this->db->bind(':id', $id_turma);
         $this->db->execute();
         $count = $this->db->count();
         if ($count > 0) {
